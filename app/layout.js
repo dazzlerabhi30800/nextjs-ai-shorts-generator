@@ -1,4 +1,4 @@
-import localFont from "next/font/local";
+// import localFont from "next/font/local";
 import "./globals.css";
 import Provider from "./provider";
 import { ClerkProvider } from "@clerk/nextjs";
@@ -28,7 +28,6 @@ export default function RootLayout({ children }) {
     <ClerkProvider>
       <html lang="en">
         <body
-          // className={`${geistSans.variable} antialiased`}
           className={`${outfit.className} antialiased`}
         >
           <Provider>{children}</Provider>
