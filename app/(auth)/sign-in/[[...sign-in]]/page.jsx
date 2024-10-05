@@ -11,10 +11,11 @@ export default function Page() {
           alt="Clerk Logo"
           width={200}
           height={200}
+          priority={true}
         />
       </div>
       <div className="flex items-center justify-center h-screen">
-        <SignIn />
+        <SignIn forceRedirectUrl="/dashboard" />
       </div>
     </div>
   );
