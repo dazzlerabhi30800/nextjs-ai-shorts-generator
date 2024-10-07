@@ -27,7 +27,7 @@ const SelectStyle = ({ onUserSelect }) => {
   ];
   const [selectStyle, setSelectStyle] = useState("");
   return (
-    <div className="mt-10">
+    <div className="mt-10 w-full">
       <h2 className="text-primary font-bold text-2xl">Style</h2>
       <p className="text-gray-600">Select your video style</p>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-5 mt-4">

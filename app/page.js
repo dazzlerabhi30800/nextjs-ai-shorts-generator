@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import Styles from "@/styles/Styles";
 import { UserButton } from "@clerk/nextjs";
+
+
 export default function Home() {
   const { style } = Styles();
   return (
