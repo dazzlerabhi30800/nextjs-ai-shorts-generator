@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^5.7.1",
+    "@deepgram/sdk": "^3.8.0",
     "@google/generative-ai": "^0.21.0",
     "@lottiefiles/dotlottie-react": "^0.9.0",
     "@neondatabase/serverless": "^0.9.5",
