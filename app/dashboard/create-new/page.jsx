@@ -6,24 +6,39 @@ import SelectDuration from "./_components/SelectDuration";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import CustomLoading from "./_components/CustomLoading";
+import { v4 as uuidv4 } from "uuid";
 
 const CreateNew = () => {
   const [formData, setFormData] = useState([]);
   const [videoScript, setVideoScript] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [audioUrl, setAudioUrl] = useState("");
 
   const onHandleInputChange = (fieldName, fieldValue) => {
     setFormData((prev) => ({ ...prev, [fieldName]: fieldValue }));
   };
 
   // get the text
-  const getText = async () => {
-    const result = await axios.post("/api/generate-audio", {
-      text: "Hello world from deepgra, this is abhishek choudhary with nothing to say much, but still lets see how this all will work out in the end",
-      id: 1,
+  const generateAudioFile = async (data) => {
+    let script = "";
+    const id = uuidv4();
+    // const result = await axios.post("/api/generate-audio", {
+    //   text: "Hello world from deepgra, this is abhishek choudhary with nothing to say much, but still lets see how this all will work out in the end",
+    //   id: 1,
+    // });
+    // console.log(result);
+    data.forEach((video) => {
+      script += `${video.contentText} `;
     });
-    console.log(result);
+    // console.log(script);
+    await axios
+      .post("/api/generate-audio", {
+        text: script,
+        id: id,
+      })
+      .then((res) => setAudioUrl(res.data.downloadUrl));
   };
+  console.log(audioUrl);
 
   // get the prompt
   const getPrompt = async () => {
@@ -35,9 +50,9 @@ const CreateNew = () => {
       })
       .then((res) => {
         setVideoScript(res.data.result);
+        generateAudioFile(res.data.result);
       });
     setLoading(false);
-    getText();
   };
   return (
     <div className="lg:px-10">

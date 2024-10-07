@@ -24,12 +24,14 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.33.0",
+    "firebase": "^10.14.0",
     "lucide-react": "^0.447.0",
     "next": "14.2.14",
     "react": "^18",
     "react-dom": "^18",
     "tailwind-merge": "^2.5.3",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.11",
