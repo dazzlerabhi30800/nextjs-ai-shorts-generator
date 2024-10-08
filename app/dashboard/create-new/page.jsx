@@ -11,12 +11,15 @@ import { VideoContext } from "@/app/_context/VideoContext";
 import { db } from "@/configs/db";
 import { useUser } from "@clerk/nextjs";
 import { VideoData } from "@/configs/schema";
+import PlayerDialog from "../_components/PlayerDialog";
 // import Image from "next/image";
 
 const CreateNew = () => {
   const [formData, setFormData] = useState([]);
   const { videoData, setVideoData } = useContext(VideoContext);
   const [loading, setLoading] = useState(false);
+  const [playVideo, setPlayVideo] = useState(false);
+  const [videoId, setVideoId] = useState(5);
   const { user } = useUser();
 
   const onHandleInputChange = (fieldName, fieldValue) => {
@@ -39,9 +42,9 @@ const CreateNew = () => {
       .then((res) => {
         setVideoData((prev) => ({
           ...prev,
-          audioUrl: res.data.downloadUrl,
+          audioUrl: res?.data?.downloadUrl,
         }));
-        res.data.downloadUrl && generateCaption(res.data.downloadUrl, data);
+        res?.data?.downloadUrl && generateCaption(res.data.downloadUrl, data);
       });
   };
 
@@ -56,9 +59,9 @@ const CreateNew = () => {
       .then((res) => {
         setVideoData((prev) => ({
           ...prev,
-          videoScript: res.data.result.slice(0, 3),
+          videoScript: res?.data?.result.slice(0, 3),
         }));
-        generateAudioFile(res.data.result.slice(0, 3));
+        generateAudioFile(res?.data?.result.slice(0, 3));
       });
   };
 
@@ -72,7 +75,7 @@ const CreateNew = () => {
           prompt: element?.imagePrompt,
         });
         console.log(resp.data.imgUrl);
-        imgs.push(resp.data.imgUrl);
+        imgs.push(resp?.data?.imgUrl);
       } catch (error) {
         console.log("Error: ", error);
       }
@@ -135,6 +138,7 @@ const CreateNew = () => {
         </Button>
       </div>
       <CustomLoading loading={loading} />
+      <PlayerDialog playVideo={playVideo} videoId={videoId} />
     </div>
   );
 };
