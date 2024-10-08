@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import SelectTopic from "./_components/SelectTopic";
 import SelectStyle from "./_components/SelectStyle";
 import SelectDuration from "./_components/SelectDuration";
@@ -7,15 +7,21 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import CustomLoading from "./_components/CustomLoading";
 import { v4 as uuidv4 } from "uuid";
+import { Thasadith } from "next/font/google";
+import { VideoContext } from "@/app/_context/VideoContext";
+// import Image from "next/image";
 
 const CreateNew = () => {
   const [formData, setFormData] = useState([]);
-  const [videoScript, setVideoScript] = useState([]);
+  const [videoScript, setVideoScript] = useState(null);
   const [loading, setLoading] = useState(false);
   const [audioUrl, setAudioUrl] = useState("");
   const [captions, setCaptions] = useState([]);
-  const fileUrl =
-    "https://firebasestorage.googleapis.com/v0/b/ai-short-generator-f81ba.appspot.com/o/ai-short-video-files%2F8bcfa45a-ef3e-4d52-b075-c7c42bfe9d38.mp3?alt=media&token=bc7b992f-3866-4195-b0ae-2fe673cd8e75";
+  const [images, setImages] = useState([]);
+
+  const { videoData, setVideoData } = useContext(VideoContext);
+  console.log(videoData);
+  // console.log(images);
 
   const onHandleInputChange = (fieldName, fieldValue) => {
     setFormData((prev) => ({ ...prev, [fieldName]: fieldValue }));
@@ -34,35 +40,57 @@ const CreateNew = () => {
         id: id,
       })
       .then((res) => {
-        setAudioUrl(res.data.downloadUrl);
-        setLoading(false);
+        setVideoData((prev) => ({
+          ...prev,
+          audioUrl: res.data.downloadUrl,
+        }));
+        res.data.downloadUrl && generateCaption(res.data.downloadUrl, data);
       });
   };
-  console.log(audioUrl);
 
   // get the prompt
   const getPrompt = async () => {
     setLoading(true);
     const prompt = `Write a script to generate ${formData.duration} seconds video on topic : ${formData.topic} along with AI Image prompt in ${formData.imageStyle} format for each scene and give me result in JSON format with imagePrompt and content text as held`;
-    const result = await axios
+    await axios
       .post("/api/get-video-script", {
         prompt,
       })
       .then((res) => {
-        setVideoScript(res.data.result);
+        setVideoData((prev) => ({ ...prev, videoScript: res.data.result }));
         generateAudioFile(res.data.result);
       });
   };
 
-  // generate captions
-  const generateCaption = async () => {
-    setLoading(true);
+  // NOTE: Generate Img
+  const generateImg = async (videoScript) => {
+    console.log(videoScript);
+    let imgs = [];
+    for (const element of videoScript) {
+      try {
+        const resp = await axios.post("/api/generate-img", {
+          prompt: element?.imagePrompt,
+        });
+        console.log(resp.data.imgUrl);
+        imgs.push(resp.data.imgUrl);
+      } catch (error) {
+        console.log("Error: ", error);
+      }
+    }
+    setVideoData((prev) => ({ ...prev, imgList: imgs }));
+    setLoading(false);
+  };
+
+  //NOTE: generate captions
+  const generateCaption = async (fileUrl, videoScriptData) => {
     await axios
       .post("/api/generate-caption", {
         audioUrl: fileUrl,
       })
-      .then((res) => setCaptions(res?.data?.subtitles));
-    setLoading(false);
+      .then((res) => {
+        setVideoData((prev) => ({ ...prev, captions: res?.data?.subtitles }));
+        res.data.subtitles && generateImg(videoScriptData);
+      });
   };
   return (
     <div className="lg:px-10">
@@ -77,7 +105,7 @@ const CreateNew = () => {
         {/* Duration */}
         <SelectDuration onUserSelect={onHandleInputChange} />
         {/* Create Button */}
-        <Button onClick={generateCaption} className="mt-10 w-full py-6">
+        <Button onClick={getPrompt} className="mt-10 w-full py-6">
           Create Short Video
         </Button>
       </div>

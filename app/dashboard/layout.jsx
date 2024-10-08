@@ -1,18 +1,23 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Header from "./_components/Header";
 import SideNavbar from "./_components/SideNavbar";
+import { VideoContext } from "../_context/VideoContext";
 
 const DashboardLayout = ({ children }) => {
+  const [videoData, setVideoData] = useState([]);
   return (
-    <div>
-      <div className="hidden md:block h-screen bg-white fixed mt-[65px]">
-        <SideNavbar />
-      </div>
+    <VideoContext.Provider value={{ videoData, setVideoData }}>
       <div>
-        <Header />
-        <div className="md:ml-64 p-10">{children}</div>
+        <div className="hidden md:block h-screen bg-white fixed mt-[65px]">
+          <SideNavbar />
+        </div>
+        <div>
+          <Header />
+          <div className="md:ml-64 p-10">{children}</div>
+        </div>
       </div>
-    </div>
+    </VideoContext.Provider>
   );
 };
 

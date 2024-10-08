@@ -14,7 +14,7 @@ export async function POST(req) {
     };
     const transcript = await client.transcripts.transcribe(data);
     // console.log(transcript.text);
-    return NextResponse.json({ subtitles: transcript.text });
+    return NextResponse.json({ subtitles: transcript.words});
   } catch (err) {
     return NextResponse.json({ error: err });
   }
