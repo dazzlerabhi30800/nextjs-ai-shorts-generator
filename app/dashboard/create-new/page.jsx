@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SelectTopic from "./_components/SelectTopic";
 import SelectStyle from "./_components/SelectStyle";
 import SelectDuration from "./_components/SelectDuration";
@@ -7,21 +7,17 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import CustomLoading from "./_components/CustomLoading";
 import { v4 as uuidv4 } from "uuid";
-import { Thasadith } from "next/font/google";
 import { VideoContext } from "@/app/_context/VideoContext";
+import { db } from "@/configs/db";
+import { useUser } from "@clerk/nextjs";
+import { VideoData } from "@/configs/schema";
 // import Image from "next/image";
 
 const CreateNew = () => {
   const [formData, setFormData] = useState([]);
-  const [videoScript, setVideoScript] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [audioUrl, setAudioUrl] = useState("");
-  const [captions, setCaptions] = useState([]);
-  const [images, setImages] = useState([]);
-
   const { videoData, setVideoData } = useContext(VideoContext);
-  console.log(videoData);
-  // console.log(images);
+  const [loading, setLoading] = useState(false);
+  const { user } = useUser();
 
   const onHandleInputChange = (fieldName, fieldValue) => {
     setFormData((prev) => ({ ...prev, [fieldName]: fieldValue }));
@@ -29,6 +25,7 @@ const CreateNew = () => {
 
   // get the text
   const generateAudioFile = async (data) => {
+    console.log(data);
     let script = "";
     const id = uuidv4();
     data.forEach((video) => {
@@ -57,8 +54,11 @@ const CreateNew = () => {
         prompt,
       })
       .then((res) => {
-        setVideoData((prev) => ({ ...prev, videoScript: res.data.result }));
-        generateAudioFile(res.data.result);
+        setVideoData((prev) => ({
+          ...prev,
+          videoScript: res.data.result.slice(0, 3),
+        }));
+        generateAudioFile(res.data.result.slice(0, 3));
       });
   };
 
@@ -92,6 +92,31 @@ const CreateNew = () => {
         res.data.subtitles && generateImg(videoScriptData);
       });
   };
+
+  // NOTE: to check if there are all fields present in data
+  useEffect(() => {
+    console.log(videoData);
+    if (Object.keys(videoData).length == 4) {
+      saveVideoData(videoData);
+    }
+  }, [videoData]);
+
+  const saveVideoData = async (videoData) => {
+    setLoading(true);
+    const result = await db
+      .insert(VideoData)
+      .values({
+        script: videoData?.videoScript,
+        audioUrl: videoData?.audioUrl,
+        captions: videoData?.captions,
+        imageList: videoData?.imgList,
+        createdBy: user?.primaryEmailAddress?.emailAddress,
+      })
+      .returning({ id: VideoData?.id });
+    console.log(result);
+    setLoading(false);
+  };
+
   return (
     <div className="lg:px-10">
       <h2 className="font-bold text-4xl text-center text-primary ">
