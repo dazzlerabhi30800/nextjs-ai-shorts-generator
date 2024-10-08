@@ -3,6 +3,7 @@ import {
   AbsoluteFill,
   Audio,
   Img,
+  interpolate,
   Sequence,
   useCurrentFrame,
   useVideoConfig,
@@ -30,45 +31,52 @@ const RemotionVideo = ({
   };
   return (
     <AbsoluteFill className="bg-red-200">
-      {imageList?.map((img, index) => (
-        <Sequence
-          key={index}
-          from={(index * getDurationFrame()) / imageList?.length}
-          durationInFrames={getDurationFrame()}
-        >
-          <AbsoluteFill
-            style={{
-              justifyContent: "Center",
-              alignItems: "Center",
-            }}
-          >
-            <Img
-              src={img}
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-              }}
-            />
+      {imageList?.map((img, index) => {
+        const startTime = (index * getDurationFrame()) / imageList?.length;
+        const duration = getDurationFrame();
+        const scale = interpolate(
+          frame,
+          [startTime, startTime + duration / 2, startTime + duration],
+          [1, 1.8, 1],
+          { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+        );
+        return (
+          <Sequence key={index} from={startTime} durationInFrames={duration}>
             <AbsoluteFill
               style={{
-                color: "white",
-                justifyContent: "center",
-                alignItems: "center",
-                top: undefined,
-                bottom: 50,
-                height: 150,
-                textAlign: "center",
-                width: "100%",
+                justifyContent: "Center",
+                alignItems: "Center",
               }}
             >
-              <h2 className="text-2xl bg-black/40 w-fit px-2 backdrop-blur-md">
-                {getCurrentCaptions()}
-              </h2>
+              <Img
+                src={img}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  transform: `scale(${scale})`,
+                }}
+              />
+              <AbsoluteFill
+                style={{
+                  color: "white",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  top: undefined,
+                  bottom: 50,
+                  height: 150,
+                  textAlign: "center",
+                  width: "100%",
+                }}
+              >
+                <h2 className="text-2xl bg-black/40 w-fit px-2 backdrop-blur-md">
+                  {getCurrentCaptions()}
+                </h2>
+              </AbsoluteFill>
             </AbsoluteFill>
-          </AbsoluteFill>
-        </Sequence>
-      ))}
+          </Sequence>
+        );
+      })}
       {audioUrl !== undefined && <Audio src={audioUrl} />}
     </AbsoluteFill>
   );
