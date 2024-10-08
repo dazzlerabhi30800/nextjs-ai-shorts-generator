@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -48,7 +48,7 @@ const PlayerDialog = ({ playVideo, videoId }) => {
             fps={30}
             inputProps={{
               ...videoData,
-              setDurationFrame: (frameValue) => setDurationFrame(frameValue),
+              setDurationFrame,
             }}
             controls={true}
           />

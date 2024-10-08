@@ -116,7 +116,6 @@ const CreateNew = () => {
         createdBy: user?.primaryEmailAddress?.emailAddress,
       })
       .returning({ id: VideoData?.id });
-    console.log(result);
     setLoading(false);
   };
 

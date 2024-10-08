@@ -16,10 +16,14 @@ const RemotionVideo = ({
   imageList,
   setDurationFrame,
 }) => {
+  // State
+
   const { fps } = useVideoConfig();
   const frame = useCurrentFrame();
   const getDurationFrame = () => {
-    setDurationFrame((captions[captions.length - 1]?.end / 1000) * fps);
+    setTimeout(() => {
+      setDurationFrame((captions[captions.length - 1]?.end / 1000) * fps);
+    }, 100);
     return (captions[captions.length - 1]?.end / 1000) * fps;
   };
   const getCurrentCaptions = () => {
@@ -29,6 +33,7 @@ const RemotionVideo = ({
     );
     return currentCaption ? currentCaption.text : "";
   };
+  if (!audioUrl) return;
   return (
     <AbsoluteFill className="bg-red-200">
       {imageList?.map((img, index) => {
