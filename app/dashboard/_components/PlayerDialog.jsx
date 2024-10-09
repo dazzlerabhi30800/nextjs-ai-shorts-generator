@@ -3,8 +3,10 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogClose,
   DialogHeader,
   DialogTitle,
+  DialogFooter,
 } from "@/components/ui/dialog";
 import { Player } from "@remotion/player";
 import RemotionVideo from "./RemotionVideo";
@@ -12,14 +14,16 @@ import { Button } from "@/components/ui/button";
 import { db } from "@/configs/db";
 import { VideoData } from "@/configs/schema";
 import { eq } from "drizzle-orm";
+import { useRouter } from "next/navigation";
 
 const PlayerDialog = ({ playVideo, videoId }) => {
-  const [openDialog, setOpenDialog] = useState(false);
+  const [openDialog, setOpenDialog] = useState(true);
   const [videoData, setVideoData] = useState([]);
   const [durationFrame, setDurationFrame] = useState(100);
+  const router = useRouter();
 
   useEffect(() => {
-    setOpenDialog(playVideo);
+    setOpenDialog(!openDialog);
     videoId && getVideoData();
   }, [playVideo]);
 
@@ -29,13 +33,12 @@ const PlayerDialog = ({ playVideo, videoId }) => {
       .select()
       .from(VideoData)
       .where(eq(VideoData?.id, videoId));
-    console.log(data);
     setVideoData(data[0]);
   };
 
   return (
-    <Dialog open={true}>
-      <DialogContent className="flex flex-col items-center">
+    <Dialog open={openDialog}>
+      <DialogContent className="flex flex-col items-center group-[.ring-offset-background]:hidden">
         <DialogHeader>
           <DialogTitle className="text-3xl font-bold my-5">
             Your video is ready
@@ -52,15 +55,27 @@ const PlayerDialog = ({ playVideo, videoId }) => {
             }}
             controls={true}
           />
+        </DialogHeader>
+        <DialogDescription className="hidden">Hello</DialogDescription>
+        <DialogFooter>
           <div
             style={{ margin: "20px 0 0 0" }}
             className="flex justify-center gap-10"
           >
-            <Button variant="ghost">Cancel</Button>
+            <DialogClose asChild>
+              <Button
+                onClick={() => {
+                  setOpenDialog(false);
+                  router.replace("/dashboard");
+                }}
+                variant="ghost"
+              >
+                Cancel
+              </Button>
+            </DialogClose>
             <Button>Export</Button>
           </div>
-          <DialogDescription className="hidden">Hello</DialogDescription>
-        </DialogHeader>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

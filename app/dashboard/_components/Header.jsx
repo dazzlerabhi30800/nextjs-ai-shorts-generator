@@ -14,7 +14,7 @@ const Header = () => {
           height={80}
           className="object-cover"
         />
-        <h2 className="font-bold">Ai Short Video</h2>
+        <h2 className="font-bold hidden sm:block">Ai Short Video</h2>
       </div>
       <div className="flex gap-3 items-center">
         <Button>Dashboard</Button>
