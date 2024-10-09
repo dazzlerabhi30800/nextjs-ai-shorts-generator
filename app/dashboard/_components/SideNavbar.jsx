@@ -19,18 +19,18 @@ const SideNavbar = () => {
       path: "/dashboard/create-new",
       icon: FileVideo,
     },
-    {
-      id: 3,
-      name: "Upgrade",
-      path: "/upgrade",
-      icon: ShieldPlus,
-    },
-    {
-      id: 4,
-      name: "Account",
-      path: "/account",
-      icon: CircleUser,
-    },
+    // {
+    //   id: 3,
+    //   name: "Upgrade",
+    //   path: "/upgrade",
+    //   icon: ShieldPlus,
+    // },
+    // {
+    //   id: 4,
+    //   name: "Account",
+    //   path: "/account",
+    //   icon: CircleUser,
+    // },
   ];
   return (
     <nav className="w-64 shadow-md h-full p-5">
