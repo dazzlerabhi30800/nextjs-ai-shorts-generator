@@ -20,7 +20,7 @@ export function CustomLoading({ loading }) {
                 videoData?.captions
                   ? videoData?.imageList
                     ? ", Images are generated"
-                    : ", Images are beign generated"
+                    : ", Images are being generated"
                   : ""
               }`
             : "Wait, It can take time upto a minute or so, Please Be Patient!!"}
