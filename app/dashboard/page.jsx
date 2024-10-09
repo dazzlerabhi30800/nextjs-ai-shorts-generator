@@ -8,6 +8,7 @@ import { VideoData } from "@/configs/schema";
 import { eq } from "drizzle-orm";
 import { useUser } from "@clerk/nextjs";
 import VideoList from "./_components/VideoList";
+import { Thasadith } from "next/font/google";
 
 const Dashboard = () => {
   const { user } = useUser();
@@ -17,6 +18,7 @@ const Dashboard = () => {
       .select()
       .from(VideoData)
       .where(eq(VideoData?.createdBy, user?.primaryEmailAddress?.emailAddress));
+    console.log(result);
     setVideoList(result);
   };
   useEffect(() => {
@@ -25,9 +27,11 @@ const Dashboard = () => {
   return (
     <div>
       <div className="flex justify-between items-center">
-        <h2 className="font-bold text-primary text-2xl">Dashboard</h2>
+        <h2 className="font-bold text-primary text-xl md:text-2xl">
+          Dashboard
+        </h2>
         <Link href={"/dashboard/create-new"}>
-          <Button>+ Create New</Button>
+          <Button className="text-sm p-2 sm:text-base">+ Create New</Button>
         </Link>
       </div>
       {/* Empty List */}

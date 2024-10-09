@@ -63,9 +63,9 @@ const CreateNew = () => {
       .then((res) => {
         setVideoData((prev) => ({
           ...prev,
-          videoScript: res?.data?.result.slice(0, 3),
+          videoScript: res?.data?.result.slice(0, 4),
         }));
-        generateAudioFile(res?.data?.result.slice(0, 3));
+        generateAudioFile(res?.data?.result.slice(0, 4));
       });
   };
 
@@ -145,7 +145,7 @@ const CreateNew = () => {
   const handlePrompts = () => {
     console.log(typeof userDetail?.credits);
     if (!userDetail?.credits > 0) {
-      toast("You are out of credits");
+      toast({ title: "You are out of credits" });
       return;
     } else {
       getPrompt();
@@ -157,7 +157,7 @@ const CreateNew = () => {
       <h2 className="font-bold text-4xl text-center text-primary ">
         Create New
       </h2>
-      <div className="mt-10 w-full shadow-md p-10">
+      <div className="mt-10 w-full shadow-md p-5 sm:p-7 md:p-10">
         {/* Select Topic */}
         <SelectTopic onUserSelect={onHandleInputChange} />
         {/* Select Style */}

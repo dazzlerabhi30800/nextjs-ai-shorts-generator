@@ -11,7 +11,7 @@ const VideoList = ({ videoList }) => {
       {videoList?.map((video, index) => (
         <div
           key={index}
-          className="cursor-pointer h-[300px] shadow-lg w-full rounded-lg h-auto border border-zinc-200 flex hover:scale-105 transition-all"
+          className="cursor-pointer shadow-lg w-full h-auto border border-zinc-200 flex hover:scale-105 transition-all"
           onClick={() => {
             setOpenDialog(Date.now());
             setVideoId(video?.id);
@@ -25,9 +25,7 @@ const VideoList = ({ videoList }) => {
             durationInFrames={120}
             style={{
               borderRadius: "20px",
-              height: "100%",
-            //   width: "100%",
-              aspectRatio: "16/9",
+              width: "100%",
             }}
             fps={30}
             inputProps={{
