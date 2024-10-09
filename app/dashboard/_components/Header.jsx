@@ -10,18 +10,14 @@ const Header = () => {
   const { userDetail } = useContext(UserDetailContext);
   return (
     <header className="py-3 px-5 flex justify-between shadow-md">
-      <div className="flex gap-3 items-center">
+      <div className="flex relative z-30 gap-3 items-center">
         <Link href={"/"}>
           <Image
             src="/logo.svg"
             alt="Dazzly"
             width={80}
             height={80}
-            style={{
-              width: "80px",
-              height: "auto",
-            }}
-            className="object-cover"
+            className="w-inherit h-inherit object-cover"
           />
         </Link>
         <h2 className="font-bold hidden sm:block">Ai Short Video</h2>

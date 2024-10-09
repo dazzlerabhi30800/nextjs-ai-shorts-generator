@@ -18,7 +18,6 @@ const Dashboard = () => {
       .select()
       .from(VideoData)
       .where(eq(VideoData?.createdBy, user?.primaryEmailAddress?.emailAddress));
-    console.log(result);
     setVideoList(result);
   };
   useEffect(() => {

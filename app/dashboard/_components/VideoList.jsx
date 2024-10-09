@@ -11,7 +11,7 @@ const VideoList = ({ videoList }) => {
       {videoList?.map((video, index) => (
         <div
           key={index}
-          className="cursor-pointer shadow-lg w-full h-auto border border-zinc-200 flex hover:scale-105 transition-all"
+          className="cursor-pointer w-full h-auto flex hover:scale-105 transition-all"
           onClick={() => {
             setOpenDialog(Date.now());
             setVideoId(video?.id);
@@ -27,6 +27,7 @@ const VideoList = ({ videoList }) => {
               borderRadius: "20px",
               width: "100%",
             }}
+            className="border shadow-lg border-zinc-500"
             fps={30}
             inputProps={{
               ...video,

@@ -15,6 +15,7 @@ import { db } from "@/configs/db";
 import { VideoData } from "@/configs/schema";
 import { eq } from "drizzle-orm";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const PlayerDialog = ({ playVideo, videoId }) => {
   const [openDialog, setOpenDialog] = useState(true);
@@ -35,7 +36,6 @@ const PlayerDialog = ({ playVideo, videoId }) => {
       .where(eq(VideoData?.id, videoId));
     setVideoData(data[0]);
   };
-
   return (
     <Dialog open={openDialog}>
       <DialogContent className="flex flex-col items-center group-[.ring-offset-background]:hidden">

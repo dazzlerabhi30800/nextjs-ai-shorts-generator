@@ -33,7 +33,7 @@ const SideNavbar = () => {
     },
   ];
   return (
-    <nav className="w-64 shadow-md h-screen p-5">
+    <nav className="w-64 shadow-md h-full p-5">
       <div className="flex flex-col gap-5">
         {sideOptions.map((option) => (
           <Link key={option.id} href={option.path}>

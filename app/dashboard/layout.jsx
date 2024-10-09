@@ -26,8 +26,8 @@ const DashboardLayout = ({ children }) => {
   return (
     <UserDetailContext.Provider value={{ userDetail, setUserDetail }}>
       <VideoContext.Provider value={{ videoData, setVideoData }}>
-        <div>
-          <div className="hidden md:block h-screen bg-white fixed mt-[65px]">
+        <div className="h-full">
+          <div className="hidden flex md:block min-h-screen h-full bg-white fixed pt-[72px]">
             <SideNavbar />
           </div>
           <div>

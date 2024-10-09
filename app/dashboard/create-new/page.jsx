@@ -32,7 +32,6 @@ const CreateNew = () => {
 
   // get the text
   const generateAudioFile = async (data) => {
-    console.log(data);
     let script = "";
     const id = uuidv4();
     data.forEach((video) => {
@@ -71,17 +70,15 @@ const CreateNew = () => {
 
   // NOTE: Generate Img
   const generateImg = async (videoScript) => {
-    console.log(videoScript);
     let imgs = [];
     for (const element of videoScript) {
       try {
         const resp = await axios.post("/api/generate-img", {
           prompt: element?.imagePrompt,
         });
-        console.log(resp.data.imgUrl);
         imgs.push(resp?.data?.imgUrl);
       } catch (error) {
-        console.log("Error: ", error);
+        alert("Error: ", error);
       }
     }
     setVideoData((prev) => ({ ...prev, imgList: imgs }));
@@ -102,7 +99,6 @@ const CreateNew = () => {
 
   // NOTE: to check if there are all fields present in data
   useEffect(() => {
-    console.log(videoData);
     if (!videoData) return;
     if (Object.keys(videoData).length == 4) {
       saveVideoData(videoData);
@@ -143,7 +139,6 @@ const CreateNew = () => {
   };
 
   const handlePrompts = () => {
-    console.log(typeof userDetail?.credits);
     if (!userDetail?.credits > 0) {
       toast({ title: "You are out of credits" });
       return;
