@@ -78,7 +78,7 @@ const CreateNew = () => {
         });
         imgs.push(resp?.data?.imgUrl);
       } catch (error) {
-        alert("Error: ", error);
+        alert("Error: " + error);
         setLoading(false);
         setVideoData(null);
         return;
