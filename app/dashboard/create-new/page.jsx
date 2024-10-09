@@ -81,6 +81,7 @@ const CreateNew = () => {
         alert("Error: ", error);
         setLoading(false);
         setVideoData(null);
+        return;
       }
     }
     setVideoData((prev) => ({ ...prev, imgList: imgs }));
@@ -141,7 +142,7 @@ const CreateNew = () => {
   };
 
   const handlePrompts = () => {
-    if (!userDetail?.credits > 0) {
+    if (!userDetail?.credits > 0 && !userDetail.subscription) {
       toast({ title: "You are out of credits" });
       return;
     } else {
