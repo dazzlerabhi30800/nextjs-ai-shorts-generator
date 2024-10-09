@@ -11,7 +11,7 @@ export function CustomLoading({ loading }) {
     <AlertDialog open={loading}>
       <AlertDialogContent className="bg-transparent border-gray-400 text-center text-xl h-max shadow-none text-white">
         <AlertDialogTitle>
-          Wait, It can take time, Be Patient!!
+          Wait, It can take time upto a minute or so, Please Be Patient!!
         </AlertDialogTitle>
         <div className="bg-transparent h-44 w-fit mx-auto">
           <DotLottieReact

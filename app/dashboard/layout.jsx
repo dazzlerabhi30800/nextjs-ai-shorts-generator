@@ -1,23 +1,42 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./_components/Header";
 import SideNavbar from "./_components/SideNavbar";
 import { VideoContext } from "../_context/VideoContext";
+import { UserDetailContext } from "../_context/UserDetailContext";
+import { useUser } from "@clerk/nextjs";
+import { db } from "@/configs/db";
+import { Users } from "@/configs/schema";
+import { eq } from "drizzle-orm";
 
 const DashboardLayout = ({ children }) => {
   const [videoData, setVideoData] = useState([]);
+  const [userDetail, setUserDetail] = useState([]);
+  const { user } = useUser();
+  useEffect(() => {
+    user && getUserDetail();
+  }, [user]);
+  const getUserDetail = async () => {
+    const result = await db
+      .select()
+      .from(Users)
+      .where(eq(Users.email, user?.primaryEmailAddress?.emailAddress));
+    setUserDetail(result[0]);
+  };
   return (
-    <VideoContext.Provider value={{ videoData, setVideoData }}>
-      <div>
-        <div className="hidden md:block h-screen bg-white fixed mt-[65px]">
-          <SideNavbar />
-        </div>
+    <UserDetailContext.Provider value={{ userDetail, setUserDetail }}>
+      <VideoContext.Provider value={{ videoData, setVideoData }}>
         <div>
-          <Header />
-          <div className="md:ml-64 p-10">{children}</div>
+          <div className="hidden md:block h-screen bg-white fixed mt-[65px]">
+            <SideNavbar />
+          </div>
+          <div>
+            <Header />
+            <div className="md:ml-64 p-10">{children}</div>
+          </div>
         </div>
-      </div>
-    </VideoContext.Provider>
+      </VideoContext.Provider>
+    </UserDetailContext.Provider>
   );
 };
 

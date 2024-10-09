@@ -10,18 +10,22 @@ import { v4 as uuidv4 } from "uuid";
 import { VideoContext } from "@/app/_context/VideoContext";
 import { db } from "@/configs/db";
 import { useUser } from "@clerk/nextjs";
-import { VideoData } from "@/configs/schema";
+import { Users, VideoData } from "@/configs/schema";
 import PlayerDialog from "../_components/PlayerDialog";
-// import Image from "next/image";
+import { UserDetailContext } from "@/app/_context/UserDetailContext";
+import { useToast } from "@/hooks/use-toast";
+import { eq } from "drizzle-orm";
 
 const CreateNew = () => {
   const [formData, setFormData] = useState([]);
-  const { videoData, setVideoData } = useContext(VideoContext);
   const [loading, setLoading] = useState(false);
   const [playVideo, setPlayVideo] = useState(false);
-  const [videoId, setVideoId] = useState(5);
+  const [videoId, setVideoId] = useState();
   const { user } = useUser();
+  const { userDetail, setUserDetail } = useContext(UserDetailContext);
+  const { videoData, setVideoData } = useContext(VideoContext);
 
+  const { toast } = useToast();
   const onHandleInputChange = (fieldName, fieldValue) => {
     setFormData((prev) => ({ ...prev, [fieldName]: fieldValue }));
   };
@@ -99,6 +103,7 @@ const CreateNew = () => {
   // NOTE: to check if there are all fields present in data
   useEffect(() => {
     console.log(videoData);
+    if (!videoData) return;
     if (Object.keys(videoData).length == 4) {
       saveVideoData(videoData);
     }
@@ -116,7 +121,35 @@ const CreateNew = () => {
         createdBy: user?.primaryEmailAddress?.emailAddress,
       })
       .returning({ id: VideoData?.id });
+    await updateCredits();
+    setVideoId(result[0].id);
     setLoading(false);
+    setPlayVideo(true);
+  };
+
+  // Update the Credits
+  const updateCredits = async () => {
+    const result = await db
+      .update(Users)
+      .set({
+        credits: userDetail?.credits - 10,
+      })
+      .where(eq(Users.email, user?.primaryEmailAddress?.emailAddress));
+    setUserDetail((prev) => ({
+      ...prev,
+      credits: userDetail?.credits - 10,
+    }));
+    setVideoData(null);
+  };
+
+  const handlePrompts = () => {
+    console.log(typeof userDetail?.credits);
+    if (!userDetail?.credits > 0) {
+      toast("You are out of credits");
+      return;
+    } else {
+      getPrompt();
+    }
   };
 
   return (
@@ -132,7 +165,7 @@ const CreateNew = () => {
         {/* Duration */}
         <SelectDuration onUserSelect={onHandleInputChange} />
         {/* Create Button */}
-        <Button onClick={getPrompt} className="mt-10 w-full py-6">
+        <Button onClick={handlePrompts} className="mt-10 w-full py-6">
           Create Short Video
         </Button>
       </div>
