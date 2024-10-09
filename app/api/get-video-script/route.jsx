@@ -8,7 +8,6 @@ export async function POST(req) {
     const result = await chatSession.sendMessage(prompt);
 
     return NextResponse.json({ result: JSON.parse(result.response.text()) });
-    // return NextResponse.json({ result: JSON.parse(slicedResult) });
   } catch (e) {
     return NextResponse.json({ error: e });
   }

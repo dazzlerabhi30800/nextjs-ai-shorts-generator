@@ -1,17 +1,29 @@
-import React from "react";
+import React, { useContext } from "react";
 import { AlertDialog, AlertDialogContent } from "@/components/ui/alert-dialog";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import {
   AlertDialogDescription,
   AlertDialogTitle,
 } from "@radix-ui/react-alert-dialog";
+import { VideoContext } from "@/app/_context/VideoContext";
 
 export function CustomLoading({ loading }) {
+  const { videoData } = useContext(VideoContext);
   return (
     <AlertDialog open={loading}>
       <AlertDialogContent className="bg-transparent border-gray-400 text-center text-xl h-max shadow-none text-white">
         <AlertDialogTitle>
-          Wait, It can take time upto a minute or so, Please Be Patient!!
+          {videoData && Object.keys(videoData).length > 0
+            ? `${videoData?.videoScript ? "Video Script is Generated," : ""} ${
+                videoData?.audioUrl ? "Audio is generated," : ""
+              } ${videoData?.captions ? "captions are generated," : ""} ${
+                videoData?.captions
+                  ? videoData?.imageList
+                    ? "Images are generated"
+                    : "Images are begin generated"
+                  : ""
+              }`
+            : "Wait, It can take time upto a minute or so, Please Be Patient!!"}
         </AlertDialogTitle>
         <div className="bg-transparent h-44 w-fit mx-auto">
           <DotLottieReact

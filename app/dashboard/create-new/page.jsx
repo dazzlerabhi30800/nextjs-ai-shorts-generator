@@ -62,9 +62,9 @@ const CreateNew = () => {
       .then((res) => {
         setVideoData((prev) => ({
           ...prev,
-          videoScript: res?.data?.result.slice(0, 4),
+          videoScript: res?.data?.result,
         }));
-        generateAudioFile(res?.data?.result.slice(0, 4));
+        generateAudioFile(res?.data?.result);
       });
   };
 
@@ -79,6 +79,7 @@ const CreateNew = () => {
         imgs.push(resp?.data?.imgUrl);
       } catch (error) {
         alert("Error: ", error);
+        setLoading(false);
       }
     }
     setVideoData((prev) => ({ ...prev, imgList: imgs }));
