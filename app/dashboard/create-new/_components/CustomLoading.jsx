@@ -10,7 +10,7 @@ import { VideoContext } from "@/app/_context/VideoContext";
 export function CustomLoading({ loading }) {
   const { videoData } = useContext(VideoContext);
   return (
-    <AlertDialog open={true}>
+    <AlertDialog open={loading}>
       <AlertDialogContent className="bg-transparent w-[90%] rounded-lg border-gray-400 text-center text-xl h-max shadow-none text-white">
         <AlertDialogTitle className="text-base sm:text-lg md:text-xl ">
           {videoData && Object.keys(videoData).length > 0
