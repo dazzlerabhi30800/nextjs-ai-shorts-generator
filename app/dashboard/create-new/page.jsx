@@ -48,6 +48,12 @@ const CreateNew = () => {
           audioUrl: res?.data?.downloadUrl,
         }));
         res?.data?.downloadUrl && generateCaption(res.data.downloadUrl, data);
+      })
+      .catch((e) => {
+        alert(`Error: ${e}`);
+        setLoading(false);
+        setVideoData(null);
+        return;
       });
   };
 
