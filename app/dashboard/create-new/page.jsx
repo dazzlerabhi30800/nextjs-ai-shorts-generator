@@ -47,7 +47,7 @@ const CreateNew = () => {
           ...prev,
           audioUrl: res?.data?.downloadUrl,
         }));
-        res?.data?.downloadUrl && generateCaption(res.data.downloadUrl, data);
+        res?.data?.downloadUrl && generateCaption(res?.data?.downloadUrl, data);
       })
       .catch((e) => {
         alert(`Error: ${e}`);
@@ -70,7 +70,7 @@ const CreateNew = () => {
           ...prev,
           videoScript: res?.data?.result,
         }));
-        generateAudioFile(res?.data?.result);
+        res?.data?.result && generateAudioFile(res?.data?.result);
       });
   };
 
@@ -84,7 +84,7 @@ const CreateNew = () => {
         });
         imgs.push(resp?.data?.imgUrl);
       } catch (error) {
-        alert("Error: " + error);
+        alert(`Error: ${error}`);
         setLoading(false);
         setVideoData(null);
         return;

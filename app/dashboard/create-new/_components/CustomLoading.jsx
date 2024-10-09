@@ -14,13 +14,13 @@ export function CustomLoading({ loading }) {
       <AlertDialogContent className="bg-transparent border-gray-400 text-center text-xl h-max shadow-none text-white">
         <AlertDialogTitle>
           {videoData && Object.keys(videoData).length > 0
-            ? `${videoData?.videoScript ? "Video Script is Generated," : ""} ${
-                videoData?.audioUrl ? "Audio is generated," : ""
-              } ${videoData?.captions ? "captions are generated," : ""} ${
+            ? `${videoData?.videoScript ? "Video Script is Generated" : ""} ${
+                videoData?.audioUrl ? ", Audio is generated" : ""
+              } ${videoData?.captions ? ", captions are generated" : ""} ${
                 videoData?.captions
                   ? videoData?.imageList
-                    ? "Images are generated"
-                    : "Images are begin generated"
+                    ? ", Images are generated"
+                    : ", Images are beign generated"
                   : ""
               }`
             : "Wait, It can take time upto a minute or so, Please Be Patient!!"}
