@@ -4,7 +4,7 @@ import React from "react";
 
 const EmptyState = () => {
   return (
-    <div className="py-24 px-5 flex flex-col gap-6 items-center border-2 border-dashed mt-10">
+    <div className="py-24 px-5 flex flex-col text-center gap-6 items-center border-2 border-dashed mt-10">
       <h2 className="font-bold text-3xl">
         You don't have any short videos yet!
       </h2>
