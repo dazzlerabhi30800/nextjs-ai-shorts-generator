@@ -80,6 +80,7 @@ const CreateNew = () => {
       } catch (error) {
         alert("Error: ", error);
         setLoading(false);
+        setVideoData(null);
       }
     }
     setVideoData((prev) => ({ ...prev, imgList: imgs }));
