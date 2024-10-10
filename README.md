@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Ai Shorts Generator in Next.js
 
-## Getting Started
+## Tech Stack
 
-First, run the development server:
+- Clerk :- for Authentication
+- Deepgram :- to generate audio file from prompt
+- TailwindCSS :- for CSS
+- Google Generative Ai :- to generate prompt
+- Lottie Files :- for animated icons
+- Neon Database :- for database to user info
+- Drizzle ORM :- to create query & store data in neon database
+- Shadcn :- UI Library
+- assembly :- convert audio file in to subtitles
+- Axios :- make http requests
+- Firebase :- to store files (storage)
+- Remotion :- to convert images into video
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## How to run Locally
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. First fork or clone the repo then inside root folder run `npm install` to install the dependencies.
+2. Then make a .env.local file in root dir & initialize variables. Grab your secret & publishable key from Stripe Dashboard & make two variables.
+   - NEXT_PUBLIC_DRIZZLE_DATABASE_URL :- get it from neon website after registering.
+   - NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY :- get it from clerk website
+   - CLERK_SECRET_KEY :- get it from clerk website
+   - NEXT_PUBLIC_CLERK_SIGN_IN_URL :- get it from clerk website
+   - NEXT_PUBLIC_CLERK_SIGN_UP_URL :- get it from clerk website
+   - NEXT_PUBLIC_GEMINI_API_KEY :- get it from google cloud
+   - NEXT_PUBLIC_DEEPGRAM_API_KEY :- get it from Deepgram
+   - NEXT_PUBLIC_FIREBASE_API_KEY :- get it from Firebase
+   - ASSEMBLY_AI_KEY :- get it from Assembly AI Website
+3. You are done & ready to run inside the root folder run the command `npm run dev`.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+**You can view the live site _[Dazzy Ai Shorts Generator Live](https://dazzyaishorts-generator.netlify.app/)_**
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Shopee UI
 
-## Learn More
+### Dashboard Page
 
-To learn more about Next.js, take a look at the following resources:
+![Dashboard Page](/public/dashboard.png)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Create new video page
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+![Create new video Page](/public/create-new-video.png)
 
-## Deploy on Vercel
+### Video Preview
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+![Video Preview](/public/video-preview.png)
