@@ -29,7 +29,7 @@ const RemotionVideo = ({
   const getCurrentCaptions = () => {
     const currentTime = (frame / 30) * 1000; // convert frame number to milliseconds becoz fps is 30
     const currentCaption = captions?.find(
-      (word) => currentTime >= word?.start && currentTime <= word?.end
+      (word) => currentTime >= word?.start && currentTime <= word?.end,
     );
     return currentCaption ? currentCaption.text : "";
   };
@@ -39,12 +39,13 @@ const RemotionVideo = ({
       {imageList?.map((img, index) => {
         const startTime = (index * getDurationFrame()) / imageList?.length;
         const duration = getDurationFrame();
-        const scale = interpolate(
-          frame,
-          [startTime, startTime + duration / 2, startTime + duration],
-          [1, 1.8, 1],
-          { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
-        );
+        const scale = (index) =>
+          interpolate(
+            frame,
+            [startTime, startTime + duration / 2, startTime + duration],
+            index % 2 === 0 ? [1, 1.8, 1] : [1.8, 1, 1.8],
+            { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
+          );
         return (
           <Sequence key={index} from={startTime} durationInFrames={duration}>
             <AbsoluteFill
@@ -59,7 +60,7 @@ const RemotionVideo = ({
                   width: "100%",
                   height: "100%",
                   objectFit: "cover",
-                  transform: `scale(${scale})`,
+                  transform: `scale(${scale(index)})`,
                 }}
               />
               <AbsoluteFill

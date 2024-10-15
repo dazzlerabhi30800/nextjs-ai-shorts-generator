@@ -155,6 +155,7 @@ const CreateNew = () => {
       getPrompt();
     }
   };
+  console.log(videoData?.videoScript, videoData?.captions);
 
   return (
     <div className="lg:px-10">
