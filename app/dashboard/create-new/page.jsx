@@ -76,6 +76,7 @@ const CreateNew = () => {
 
   // NOTE: Generate Img
   const generateImg = async (videoScript) => {
+    if (videoScript.length < 1) return;
     let imgs = [];
     for (const element of videoScript) {
       try {
