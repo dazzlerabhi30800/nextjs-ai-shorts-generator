@@ -39,13 +39,12 @@ const RemotionVideo = ({
       {imageList?.map((img, index) => {
         const startTime = (index * getDurationFrame()) / imageList?.length;
         const duration = getDurationFrame();
-        const scale = (index) =>
-          interpolate(
-            frame,
-            [startTime, startTime + duration / 2, startTime + duration],
-            index % 2 === 0 ? [1, 1.8, 1] : [1.8, 1, 1.8],
-            { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
-          );
+        const scale = interpolate(
+          frame,
+          [startTime, startTime + duration / 2, startTime + duration],
+          [1, 1.8, 1],
+          { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
+        );
         return (
           <Sequence key={index} from={startTime} durationInFrames={duration}>
             <AbsoluteFill
@@ -60,7 +59,7 @@ const RemotionVideo = ({
                   width: "100%",
                   height: "100%",
                   objectFit: "cover",
-                  transform: `scale(${scale(index)})`,
+                  transform: `scale(${scale})`,
                 }}
               />
               <AbsoluteFill
